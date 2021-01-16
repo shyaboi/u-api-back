@@ -11,7 +11,9 @@ app.use(bodyParser.json())
 
 
 app.post('/api/u-c', (req, res) => {
-  console.log(req.body)
+  const obj = JSON.parse(JSON.stringify(req.body)); // req.body = [Object: null prototype] { title: 'product' }
+
+console.log(obj);
 })
 
 app.listen(port, () => {
