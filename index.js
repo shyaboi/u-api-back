@@ -24,8 +24,8 @@ app.use(bodyParser.json());
 
 app.post("/api/u-c", (req, res) => {
   const obj = JSON.parse(JSON.stringify(req.body)); 
-  const route = JSON.stringify(req.body.route);
-  const uFunc = JSON.stringify(req.body.funktion)
+  const route = req.body.route;
+  const uFunc = req.body.funktion;
 console.log(route,uFunc)
   // let k = new Kreator(req.body.route, req.body.function, req.body, res);
   // k.kRoute()
@@ -33,7 +33,7 @@ console.log(route,uFunc)
     {
       user: "Shyaboi",
       routes: ["/ok", route],
-      function: uFunc
+      funktion: uFunc
     },
 
     function (err, small) {
