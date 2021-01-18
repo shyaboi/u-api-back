@@ -38,7 +38,6 @@ app.get("/uc/:route", function (request, response) {
   // console.log(rot);
   const result = await all.find(({ route }) => route === rot);
     var fin = await eval(result.funktion)
-    response.send(document.write(fin));
   }
   final()
 });
