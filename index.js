@@ -22,6 +22,8 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 // ---------------------------------------------------------------------------imports/modules end
 //setup mongoose model new creation
+
+//setup a 'cache' of all the db data
 var all;
 const getAll = async () => {
   all = await rModel.find({});
@@ -31,11 +33,14 @@ getAll();
 
 //route for getting the user created routes
 app.get("/uc/:route", function (request, response) {
+  const final = async ()=> {
   let rot = "/" + request.params.route;
-  console.log(rot);
-  const result = all.find(({ route }) => route === rot);
-  console.log(result);
-  response.send(result);
+  // console.log(rot);
+  const result = await all.find(({ route }) => route === rot);
+    var fin = await eval(result.funktion)
+    response.send(document.write(fin));
+  }
+  final()
 });
 
 app.get("/all-routes", (request, response) => {
