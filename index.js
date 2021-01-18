@@ -22,42 +22,29 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 // ---------------------------------------------------------------------------imports/modules end
 //setup mongoose model new creation
+var all;
+const getAll = async () => {
+  all = await rModel.find({});
+  //  console.log(all)
+};
+getAll();
 
-// const getAll = async ()=> {
-//   var all =  await rModel.find({});
-//   console.log(all)
-// }
-// getAll()
+//route for getting the user created routes
+app.get("/uc/:route", function (request, response) {
+  let rot = "/" + request.params.route;
+  console.log(rot);
+  const result = all.find(({ route }) => route === rot);
+  console.log(result);
+  response.send(result);
+});
 
-var routes = []
-const getAllRoutes = async ()=> {
-  let all =  await rModel.find({});
-  for(x of all){
-    console.log(x.route)
-    app.get(x.route,(request,response)=> {
-      console.log(x)
-      response.send(x)
-    })
-    
-   routes.push(x.route)
-  }
-}
-getAllRoutes()
+app.get("/all-routes", (request, response) => {
+  request.send(routes);
+});
 
-
-
-app.get("/all-routes", (request,response)=> {
-  request.send(routes)
-})
-
-
-
-app.get('/router',(request,response)=> {
-
-  response.send(routes)
-  
-})
-
+app.get("/router", (request, response) => {
+  response.send(routes);
+});
 
 // user created api posting route
 app.post("/api/u-c", (req, res) => {
@@ -72,7 +59,7 @@ app.post("/api/u-c", (req, res) => {
       route: route,
       funktion: uFunc,
     },
-  
+
     function (err, small) {
       if (err) console.error(err);
       // saved!
