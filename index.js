@@ -31,19 +31,29 @@ const getAll = async () => {
 };
 getAll();
 
-//route for getting the user created routes
+//route for getting and creating the user routes from the 'cached' user created routes
 app.get("/uc/:route", function (request, response) {
-  const final = async ()=> {
+  //seting up the 'final' function that will run the eval and return the route
+  const final = async (err)=> {
+    //route handler
   let rot = "/" + request.params.route;
-  // console.log(rot);
+//find the route in the cached all object
   const result = await all.find(({ route }) => route === rot);
+  //error catcher
+  if (err) {
+    // handle errors
+    console.error(err)
+  } else {
+    // do the function eval thing
     var fin = await eval(result.funktion)
+  }
   }
   final()
 });
 
+
 app.get("/all-routes", (request, response) => {
-  request.send(routes);
+  response.send(all);
 });
 
 app.get("/router", (request, response) => {
