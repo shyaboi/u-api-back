@@ -38,30 +38,33 @@ app.get("/uc/:route", function (request, response) {
     //route handler
   let rot = "/" + request.params.route;
 //find the route in the cached all object
+try {
   const result = await all.find(({ route }) => route === rot);
-  //error catcher
-  if (err) {
-    // handle errors
     console.error(err)
-  } else {
     // do the function eval thing
+
     var fin = await eval(result.funktion)
+  
+} catch (error) {
+  response.send(error.toString())
+  
+}
   }
-  }
-  final()
+    final()
+ 
 });
 
 
 app.get("/all-routes", (request, response) => {
-  response.send(all);
-});
-
-app.get("/router", (request, response) => {
-  response.send(routes);
+  var allRoutes = []
+  for (route of all){
+   allRoutes.push(route.route)
+  }
+  response.send(allRoutes);
 });
 
 // user created api posting route
-app.post("/api/u-c", (req, res) => {
+app.post("/api/u-c/new", (req, res) => {
   //parsing body object
   const obj = JSON.parse(JSON.stringify(req.body));
   const route = req.body.route;
@@ -82,7 +85,9 @@ app.post("/api/u-c", (req, res) => {
   );
   k;
 });
-
+app.get('*', function(req, res) {
+  res.send('Get off my lawn!!!!!!!!!')
+});
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
 });
