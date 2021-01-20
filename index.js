@@ -23,44 +23,48 @@ app.use(bodyParser.json());
 // ---------------------------------------------------------------------------imports/modules end
 //setup mongoose model new creation
 
-// const getAll = async ()=> {
-//   var all =  await rModel.find({});
-//   console.log(all)
-// }
-// getAll()
+//setup a 'cache' of all the db data
+var all;
+const getAll = async () => {
+  all = await rModel.find({});
+  //  console.log(all)
+};
+getAll();
 
-var routes = []
-const getAllRoutes = async ()=> {
-  let all =  await rModel.find({});
-  for(x of all){
-    console.log(x.route)
-    app.get(x.route,(request,response)=> {
-      console.log(x)
-      response.send(x)
-    })
-    
-   routes.push(x.route)
-  }
-}
-getAllRoutes()
+//route for getting and creating the user routes from the 'cached' user created routes
+app.get("/uc/:route", function (request, response) {
+  //seting up the 'final' function that will run the eval and return the route
+  const final = async (err)=> {
+    //route handler
+  let rot = "/" + request.params.route;
+//find the route in the cached all object
+try {
+  const result = await all.find(({ route }) => route === rot);
+    console.error(err)
+    // do the function eval thing
 
-
-
-app.get("/all-routes", (request,response)=> {
-  request.send(routes)
-})
-
-
-
-app.get('/router',(request,response)=> {
-
-  response.send(routes)
+    var fin = await eval(result.funktion)
   
-})
+} catch (error) {
+  response.send(error.toString())
+  
+}
+  }
+    final()
+ 
+});
 
+
+app.get("/all-routes", (request, response) => {
+  var allRoutes = []
+  for (route of all){
+   allRoutes.push(route.route)
+  }
+  response.send(allRoutes);
+});
 
 // user created api posting route
-app.post("/api/u-c", (req, res) => {
+app.post("/api/u-c/new", (req, res) => {
   //parsing body object
   const obj = JSON.parse(JSON.stringify(req.body));
   const route = req.body.route;
@@ -72,7 +76,7 @@ app.post("/api/u-c", (req, res) => {
       route: route,
       funktion: uFunc,
     },
-  
+
     function (err, small) {
       if (err) console.error(err);
       // saved!
@@ -81,7 +85,9 @@ app.post("/api/u-c", (req, res) => {
   );
   k;
 });
-
+app.get('*', function(req, res) {
+  res.send('Get off my lawn!!!!!!!!!')
+});
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
 });
