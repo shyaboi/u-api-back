@@ -32,7 +32,7 @@ const getAll = async () => {
 getAll();
 
 //route for getting and creating the user routes from the 'cached' user created routes
-app.get("/uc/:route", function (request, response) {
+app.get("/u-c-r/:route", function (request, response) {
   //seting up the 'final' function that will run the eval and return the route
   const final = async (err)=> {
     //route handler
@@ -40,8 +40,7 @@ app.get("/uc/:route", function (request, response) {
 //find the route in the cached all object
 try {
   const result = await all.find(({ route }) => route === rot);
-    console.error(err)
-    // do the function eval thing
+    // do the function eval of the JS string...might be pretty dangerous...but lets see!
 
     var fin = await eval(result.funktion)
   
@@ -55,7 +54,7 @@ try {
 });
 
 
-app.get("/all-routes", (request, response) => {
+app.get("/u-c/all-routes", (request, response) => {
   var allRoutes = []
   for (route of all){
    allRoutes.push(route.route)
@@ -64,7 +63,7 @@ app.get("/all-routes", (request, response) => {
 });
 
 // user created api posting route
-app.post("/api/u-c/new", (req, res) => {
+app.post("/u-c/new", (req, res) => {
   //parsing body object
   const obj = JSON.parse(JSON.stringify(req.body));
   const route = req.body.route;
@@ -84,9 +83,11 @@ app.post("/api/u-c/new", (req, res) => {
     }
   );
   k;
+getAll();
+console.log('all updated')
 });
 app.get('*', function(req, res) {
-  res.send('Get off my lawn!!!!!!!!!')
+  res.send('Not a route yet, but you can make one <a href="http://uselessapi.com/code/">here</a>.')
 });
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
