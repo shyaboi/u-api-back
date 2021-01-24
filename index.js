@@ -72,14 +72,14 @@ app.post("/u-c/new", (req, res) => {
   let k = rModel.create(
     {
       user: "Shyaboi",
-      route: route,
+      route: '/'+route,
       funktion: uFunc,
     },
 
     function (err, small) {
       if (err) console.error(err);
       // saved!
-      console.log("user saved");
+      console.log(obj);
     }
   );
   k;
