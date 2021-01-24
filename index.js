@@ -87,7 +87,7 @@ getAll();
 console.log('all updated')
 });
 app.get('*', function(req, res) {
-  res.send('Not a route yet, but you can make one <a href="http://uselessapi.com/code/">here</a>.')
+  res.send('Not a route yet, but you can make one <a href="http://uselessapi.com/editor/">here</a>.')
 });
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
