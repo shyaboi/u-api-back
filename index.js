@@ -20,6 +20,9 @@ const rModel = require("./database/models/routes");
 app.use(bodyParser.urlencoded({ extended: false }));
 // parse application/json
 app.use(bodyParser.json());
+//cookie parser
+var cookieParser = require('cookie-parser');
+app.use(cookieParser());
 // ---------------------------------------------------------------------------imports/modules end
 //setup mongoose model new creation
 
