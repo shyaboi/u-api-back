@@ -31,6 +31,11 @@ const getAll = async () => {
 };
 getAll();
 
+
+app.get('/u-c/all-JSON', (request,response)=> {
+  // getAll();
+  response.json(all)
+})
 //route for getting and creating the user routes from the 'cached' user created routes
 app.get("/u-c-r/:route", function (request, response) {
   //seting up the 'final' function that will run the eval and return the route
@@ -86,6 +91,13 @@ app.post("/u-c/new", (req, res) => {
 getAll();
 console.log('all updated')
 });
+
+
+
+
+
+
+
 app.get('*', function(req, res) {
   res.send('<h1>Error 404</h1><h2>Not a route yet, but you can make one <a href="http://uselessapi.com/editor/">here</a>.</h2>')
 });
